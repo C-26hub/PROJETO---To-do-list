@@ -2,7 +2,7 @@
   Projeto simples de gerenciamento de tarefas desenvolvido em Python com SQLite, com funcionalidades básicas de um sistema CRUD (Criar, Ler, Atualizar e Deletar dados).
 
 ## Equipe
-  - Everson José
+  - Everson José  (ej061222@gmail.com)
   - Maria Cecília (cecilmari33@gmail.com)
   - Maria Eduarda (vilarim051@gmail.com)
   - Sam Ferreira
