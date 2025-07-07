@@ -4,7 +4,7 @@
 ## Equipe
   - Everson José
   - Maria Cecília (cecilmari33@gmail.com)
-  - Maria Eduarda (vilarim051@gmailcom)
+  - Maria Eduarda (vilarim051@gmail.com)
   - Sam Ferreira
 
 ## ✅ Funcionalidades
