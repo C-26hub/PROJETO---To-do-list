@@ -5,7 +5,7 @@
   - Everson José  (ej061222@gmail.com)
   - Maria Cecília (cecilmari33@gmail.com)
   - Maria Eduarda (vilarim051@gmail.com)
-  - Sam Ferreira
+  - Sam Ferreira (ferreirasdemelo@gmail.com)
 
 ## ✅ Funcionalidades
   - Adicionar tarefas com descrição e data de vencimento
