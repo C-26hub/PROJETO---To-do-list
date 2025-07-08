@@ -11,7 +11,7 @@ def execute(script, *args):
 def query(script, *args):
     connection = db.connect("to_do.db")
     cursor = connection.cursor()
-    cursor.execute(cript, args)
+    cursor.execute(script, args)
     results = cursor.fetchall() #pegar resultados
     cursor.close()
     connection.close()
@@ -40,7 +40,7 @@ def add_task(task_description, deadline, status=0):
 
 def select_all_tasks():
     return query("SELECT * FROM tasks")
-def select_peding_tasks():
+def select_pending_tasks():
     return query("SELECT * FROM tasks WHERE status = ?", 0)
 
 
