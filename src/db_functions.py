@@ -61,6 +61,8 @@ def select_pending_tasks():
     """Retorna apenas as tarefas com status 0 (pendente)."""
     return query("SELECT * FROM tasks WHERE status = ?", 0)
 
+def get_task_status(task_id):
+    return query("SELECT status FROM tasks WHERE task_id = ?", task_id)
 
 ## update
 
@@ -86,9 +88,9 @@ def set_deadline(task_id, new_deadline):
 def toggle_task_status(task_id):
     execute("""
     UPDATE tasks
-    SET status =
+    SET status = ?
     WHERE task_id = ?
-    """, 
+    """, task_new_status, task_id)
 ## delete
 
 ## delete tasks by id
