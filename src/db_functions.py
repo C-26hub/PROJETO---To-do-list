@@ -21,20 +21,20 @@ def query(script, *args):
 def create_db():
     execute("""
     CREATE TABLE IF NOT EXISTS tasks (
-        task_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        task_name VARCHAR(40),
+        task_id INTEGER PRIMARY KEY AUTOINCREMENT, 
         task_description VARCHAR(100),
         deadline DATE NOT NULL,
-        status INTEGER CHECK (status IN (0,1)) NOT NULL
+        status INTEGER CHECK (status IN (0,1)) DEFAULT 0
     )
     """)
     
 ## create
-def add_task(task_name, deadline, task_description=None, status="pendente"):
-    status_int = 0 if status == "pendente" else 1
+
+def add_task(task_description, deadline, status=0):
     execute("""
-        INSERT INTO tasks (task_name, task_description, deadline, status) VALUES (?,?,?,?)
-    """, task_name, task_description, deadline, status)
+        INSERT INTO tasks (task_description, deadline, status) VALUES (?,?,?)
+    """, task_description, deadline, status)
+
 
 ## read
 
