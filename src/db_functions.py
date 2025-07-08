@@ -16,7 +16,7 @@ def create_db():
         task_name VARCHAR(40),
         task_description VARCHAR(100),
         deadline DATE NOT NULL,
-        status INTEGER CHECK (status IN (0,1)) NOT NULL
+        status INTEGER CHECK (status IN (0,1)) DEFAULT 0
     )
     """)
     
