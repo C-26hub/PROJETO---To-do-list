@@ -1,0 +1,37 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# Distribuição e pacotes
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Ambiente virtual
+venv/
+ENV/
+env/
+.venv/
+.env/
+
+# Arquivos de configuração do IDE
+.idea/
+.vscode/
+*.swp
+
+# Arquivos de log
+*.log
+
+# Arquivos de teste
+.coverage
+nosetests.xml
+test-results/
+
+# Outros arquivos temporários
+*.tmp
+*.temp
+*.bak
+*.orig
+
