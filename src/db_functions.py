@@ -8,6 +8,15 @@ def execute(script, *args):
     cursor.close()
     connection.close()
 
+def query(script, *args):
+    connection = db.connect("to_do.db")
+    cursor = connection.cursor()
+    cursor.execute(cript, args)
+    results = cursor.fetchall() #pegar resultados
+    cursor.close()
+    connection.close()
+    return results # retorna resultados 
+
 ## system config
 def create_db():
     execute("""
@@ -22,11 +31,18 @@ def create_db():
     
 ## create
 def add_task(task_name, deadline, task_description=None, status="pendente"):
+    status_int = 0 if status == "pendente" else 1
     execute("""
-        INSERT INTO tasks (task_name, task_description, deadline, status) VALUES (?,?,?,?,?)
+        INSERT INTO tasks (task_name, task_description, deadline, status) VALUES (?,?,?,?)
     """, task_name, task_description, deadline, status)
 
 ## read
+
+def select_all_tasks():
+    return query("SELECT * FROM tasks")
+def select_peding_tasks():
+    return query("SELECT * FROM tasks WHERE status = ?", 0)
+
 
 ## select all tasks
 ## select done tasks
