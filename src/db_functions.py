@@ -12,8 +12,7 @@ def execute(script, *args):
 def create_db():
     execute("""
     CREATE TABLE IF NOT EXISTS tasks (
-        task_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        task_name VARCHAR(40),
+        task_id INTEGER PRIMARY KEY AUTOINCREMENT, 
         task_description VARCHAR(100),
         deadline DATE NOT NULL,
         status INTEGER CHECK (status IN (0,1)) DEFAULT 0
