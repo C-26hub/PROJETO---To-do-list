@@ -67,12 +67,11 @@ def select_pending_tasks():
 
 ## rename task
 def set_task_description(task_id, new_description):
-    script = """
-        UPDATE tasks
-        SET task_description = ?
-        WHERE task_id = ?
-    """
-    execute(script, new_description, task_id)
+    execute(""""
+    UPDATE tasks
+    SET task_description = ?
+    WHERE task_id = ?
+    """, new_description, task_id)
 ## change deadline
 ## mark done/pending
 
