@@ -13,8 +13,8 @@ def create_db():
     execute("""
     CREATE TABLE IF NOT EXISTS tasks (
         task_id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        task_description VARCHAR(100),
-        deadline DATE NOT NULL,
+        task_description TEXT,
+        deadline TEXT NOT NULL,
         status INTEGER CHECK (status IN (0,1)) DEFAULT 0
     )
     """)
@@ -33,8 +33,14 @@ def add_task(task_description, deadline, status=0):
 
 ## update
 
-## rename task
-## rewrite description
+## set task description
+def set_task_description(task_id, new_description):
+    script = """
+        UPDATE tasks
+        SET task_description = ?
+        WHERE task_id = ?
+    """
+    execute(script, new_description, task_id)
 ## change deadline
 ## mark done/pending
 
