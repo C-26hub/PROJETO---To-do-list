@@ -12,10 +12,10 @@ def query(script, *args):
     connection = db.connect("to_do.db")
     cursor = connection.cursor()
     cursor.execute(script, args)
-    results = cursor.fetchall() #pegar resultados
+    results = cursor.fetchall() ## pegar resultados
     cursor.close()
     connection.close()
-    return results # retorna resultados 
+    return results ## retorna resultados 
 
 ## system config
 def create_db():
@@ -38,23 +38,46 @@ def add_task(task_description, deadline, status=0):
 
 ## read
 
-def select_all_tasks():
-    return query("SELECT * FROM tasks")
-def select_pending_tasks():
-    return query("SELECT * FROM tasks WHERE status = ?", 0)
-
-
 ## select all tasks
+
+def select_all_tasks():
+    """Retrona todas as tarefas, sem filtro, ordenadas pela data de prazo."""
+    return query("SELECT * FROM tasks")
+
+
 ## select done tasks
+
+def select_done_tasks():
+    """Retorna apenas as tarefas com status 1 (concluída)."""
+    return query("SELECT * FROM tasks WHERE status = ? ORDER BY deadline ASC", 1)
+
+
 ## select pending tasks
+
+def select_pending_tasks():
+    """Retorna apenas as tarefas com status 0 (pendente)."""
+    return query("SELECT * FROM tasks WHERE status = ? ORDER BY deadline ASC", 0)
 
 ## update
 
+
+
 ## rename task
+
+
 ## rewrite description
+
+
 ## change deadline
+
+
+
 ## mark done/pending
 
+
+
 ## delete
+
+
 
 ## delete tasks by id
