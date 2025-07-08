@@ -83,14 +83,13 @@ def set_deadline(task_id, new_deadline):
     WHERE task_id = ?
     """, new_deadline, task_id)
 ## mark done/pending
-
-
-def toggle_task_status(task_id):
+def toggle_task_status(task_id, task_new_status):
     execute("""
     UPDATE tasks
     SET status = ?
     WHERE task_id = ?
     """, task_new_status, task_id)
+
 ## delete
 
 ## delete tasks by id
