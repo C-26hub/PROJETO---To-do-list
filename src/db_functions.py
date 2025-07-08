@@ -38,20 +38,41 @@ def add_task(task_description, deadline, status=0):
 
 ## read
 
-def select_all_tasks():
-    return query("SELECT * FROM tasks")
-def select_pending_tasks():
-    return query("SELECT * FROM tasks WHERE status = ?", 0)
+
 
 
 ## select all tasks
+
+def select_all_tasks():
+    """Retorna todas as tarefas, sem filtro, ordenadas pela data de prazo."""
+    return query("SELECT * FROM tasks")
+
+
 ## select done tasks
+def select_done_tasks():
+    """Retorna apenas as tarefas com status 1 (concluída)."""
+    return query("SELECT * FROM tasks WHERE status = ? ORDER BY deadline ASC", 1)
+
+
+
+
 ## select pending tasks
+def select_pending_tasks():
+    """Retorna apenas as tarefas com status 0 (pendente)."""
+    return query("SELECT * FROM tasks WHERE status = ?", 0)
+
 
 ## update
 
+
 ## rename task
-## rewrite description
+def set_task_description(task_id, new_description):
+    script = """
+        UPDATE tasks
+        SET task_description = ?
+        WHERE task_id = ?
+    """
+    execute(script, new_description, task_id)
 ## change deadline
 ## mark done/pending
 
