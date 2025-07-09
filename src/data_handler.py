@@ -13,8 +13,14 @@ def create_task(task_description, deadline):
 ## read
 def get_tasks():
     tasks = select_all_tasks()
+    formatted_tasks = []
+    for task in tasks:
+        task_id, description, deadline, status_code = task
+        status_text = "Pendente" if status_code == 0 else "Concluída"
+        formatted_line = f"ID:  {task_id} Status: {status_text} Prazo: {deadline} Tarefa: {description}"
+        formatted_tasks.append(formatted_line)
     ## processamento ou conversão
-    return tasks
+    return formatted_tasks
 
 ## update
 
