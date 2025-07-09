@@ -2,8 +2,9 @@ from db_functions import *
 from datetime import datetime 
 
 def toggle_task_status(task_id):
-    task_new_status = 0 if bool(get_task_status()) else 1
-    set_task_status(task_id, task_new_status)
+   current_status = get_task_status(task_id)
+   new_status = 1 if current_status == 0 else 0
+   set_task_status(task_id, new_status)
 
 ## create
 def create_task(task_description, deadline):
