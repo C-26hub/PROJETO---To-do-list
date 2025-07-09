@@ -1,13 +1,12 @@
-from data_handler import *
-from db_functions import *
-from user_interface import *
+import tkinter as tk
+import db_functions as db
+from user_interface import AppUi
 
 def main():
-    try:
-        pass
-    except sqlite3.OperationalError as e:
-        if "no such table" in str(e):
-            create_db()
+    db.create_db()
+    root= tk.Tk()
+    app = AppUi(root)
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
