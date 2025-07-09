@@ -23,5 +23,12 @@ def get_tasks():
     return formatted_tasks
 
 ## update
+def update_task_description(task_id, new_description):
+    set_task_description(task_id, new_description)
+
+def update_task_deadline(task_id, new_deadline):
+    set_deadline(task_id, new_deadline)
 
 ## delete
+def delete_task(task_id):
+    delete_task_by_id(task_id)
