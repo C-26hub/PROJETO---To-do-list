@@ -45,7 +45,7 @@ def add_task(task_description, deadline, status=0):
 
 def select_all_tasks():
     """Retorna todas as tarefas, sem filtro, ordenadas pela data de prazo."""
-    return query("SELECT * FROM tasks")
+    return query("SELECT * FROM tasks ORDER BY deadline ASC")
 
 
 ## select done tasks
@@ -62,14 +62,15 @@ def select_pending_tasks():
     return query("SELECT * FROM tasks WHERE status = ?", 0)
 
 def get_task_status(task_id):
-    return query("SELECT status FROM tasks WHERE task_id = ?", task_id)
+    result = query("SELECT status FROM tasks WHERE task_id = ?", task_id)
+    if result:
+        return result[0][0]
+    return None
 
 ## update
-
-
 ## rename task
 def set_task_description(task_id, new_description):
-    execute(""""
+    execute("""
     UPDATE tasks
     SET task_description = ?
     WHERE task_id = ?
@@ -92,5 +93,7 @@ def set_task_status(task_id, task_new_status):
     """, task_new_status, task_id)
 
 ## delete
-
 ## delete tasks by id
+def delete_task_by_id(task_id):
+    """Apaga uma tarefa específica do banco, identificada pelo ID."""
+    execute("DELETE FROM tasks WHERE task_id = ?", task_id)
