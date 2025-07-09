@@ -79,7 +79,7 @@ def set_task_description(task_id, new_description):
 def set_deadline(task_id, new_deadline):
     execute("""
     UPDATE tasks
-    SET task_description = ?
+    SET deadline = ?
     WHERE task_id = ?
     """, new_deadline, task_id)
 
