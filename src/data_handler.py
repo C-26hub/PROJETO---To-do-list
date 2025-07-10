@@ -17,7 +17,7 @@ def get_tasks():
             "id": task_id,
             "task": description,  
             "date": deadline,
-            "feito": True if status_code == 1 else False 
+            "feito": bool(status_code) 
         }
         formatted_tasks.append(task_info)
 
@@ -26,7 +26,7 @@ def get_tasks():
 
 ## update
 def toggle_task_status(task_id):
-    new_status = 0 if bool(get_task_status(task_id)) else 1
+    new_status = int(not bool(get_task_status(task_id)))
     set_task_status(task_id, new_status)
 def update_task_description(task_id, new_description):
     set_task_description(task_id, new_description)
