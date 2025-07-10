@@ -1,11 +1,18 @@
 # 📝 PROJETO---To-do-list
   Projeto simples de gerenciamento de tarefas desenvolvido em Python com SQLite, com funcionalidades básicas de um sistema CRUD (Criar, Ler, Atualizar e Deletar dados).
 
-## Equipe
-  - Everson José (ej061222@gmail.com) - Back-End
-  - Maria Cecília (cecilmari33@gmail.com) - Interface Gráfica
-  - Maria Eduarda (vilarim051@gmail.com) - Interface Gráfica
-  - Sam Ferreira (ferreirasdemelo@gmail.com) - Banco de Dados
+## Equipe e Responsabilidades
+  - Everson José (ej061222@gmail.com)
+🔹 Responsável pelo desenvolvimento do **Back-End** da aplicação, integrando a lógica principal do sistema, filtros e comportamentos dinâmicos.
+
+  - Maria Cecília (cecilmari33@gmail.com)
+🔹 Responsável pelo desenvolvimento da **Interface Gráfica**, com foco em layout, design visual e experiência do usuário.
+
+  - Maria Eduarda (vilarim051@gmail.com)
+  🔹 Responsável pelo desenvolvimento da **Interface Gráfica**, incluindo organização dos elementos visuais, paleta de cores e integração com mascote.
+
+  - Sam Ferreira (ferreirasdemelo@gmail.com)
+🔹 Responsável pela criação e integração do **Banco de Dados (SQLite)**, garantindo a persistência das tarefas e atualização em tempo real.
 
 ## ✅ Funcionalidades
   - Adicionar tarefas com descrição e data de vencimento
