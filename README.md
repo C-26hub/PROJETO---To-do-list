@@ -2,10 +2,10 @@
   Projeto simples de gerenciamento de tarefas desenvolvido em Python com SQLite, com funcionalidades básicas de um sistema CRUD (Criar, Ler, Atualizar e Deletar dados).
 
 ## Equipe
-  - Everson José  (ej061222@gmail.com)
-  - Maria Cecília (cecilmari33@gmail.com)
-  - Maria Eduarda (vilarim051@gmail.com)
-  - Sam Ferreira (ferreirasdemelo@gmail.com)
+  - Everson José (ej061222@gmail.com) - Back-End
+  - Maria Cecília (cecilmari33@gmail.com) - Interface Gráfica
+  - Maria Eduarda (vilarim051@gmail.com) - Interface Gráfica
+  - Sam Ferreira (ferreirasdemelo@gmail.com) - Banco de Dados
 
 ## ✅ Funcionalidades
   - Adicionar tarefas com descrição e data de vencimento
@@ -17,12 +17,12 @@
 ## 🛠 Tecnologias utilizadas
   - Python 3
   - SQLite
-  - (Opcional) Tkinter ou PyQt5, se interface gráfica for implementada
+  - CustomTkinter
 
 ## 🎯 Objetivo
   O projeto tem como finalidade aplicar os conceitos de:
 
-## Programação em Python
+### Programação em Python
   - Manipulação de banco de dados com SQLite
   - Estruturação de um CRUD completo
   - Prática de trabalho em equipe e uso de controle de versão com Git e GitHub
