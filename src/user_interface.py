@@ -69,41 +69,41 @@ def update_list():
             # Checkbox para marcar como feito
             var = ctk.BooleanVar(value=t["feito"])
 
-            def toggle_feito(index=i):
-                tasks[index]["feito"] = not tasks[index]["feito"]
-                update_list()
+def toggle_feito(index=i):
+    tasks[index]["feito"] = not tasks[index]["feito"]
+    update_list()
 
-            checkbox = ctk.CTkCheckBox(
-                task_frame,
-                text=f"{t['task']} - {t['date']}",
-                variable=var,
-                command=toggle_feito
-            )
-            checkbox.pack(anchor="w", padx=5)
+checkbox = ctk.CTkCheckBox(
+    task_frame,
+    text=f"{t['task']} - {t['date']}",
+    variable=var,
+    command=toggle_feito
+)
+checkbox.pack(anchor="w", padx=5)
 
-            # Label da descrição
-            if t["description"]:
-                desc_label = ctk.CTkLabel(
-                    task_frame,
-                    text=f"Descrição: {t['description']}",
-                    font=("Rubik", 12),
-                    text_color="#666666"
-                )
-                desc_label.pack(anchor="w", padx=35)
+# Label da descrição
+if t["description"]:
+    desc_label = ctk.CTkLabel(
+        task_frame,
+        text=f"Descrição: {t['description']}",
+        font=("Rubik", 12),
+        text_color="#666666"
+    )
+    desc_label.pack(anchor="w", padx=35)
 
-            # Botão para excluir a tarefa
-            def excluir_tarefa(index=i):
-                tasks.pop(index)
-                update_list()
+# Botão para excluir a tarefa
+def excluir_tarefa(index=i):
+    tasks.pop(index)
+    update_list()
 
-            delete_button = ctk.CTkButton(
-                task_frame,
-                text="❌",
-                width=30,
-                height=24,
-                command=excluir_tarefa
-            )
-            delete_button.pack(side="right", padx=5)
+delete_button = ctk.CTkButton(
+    task_frame,
+    text="❌",
+    width=30,
+    height=24,
+    command=excluir_tarefa
+)
+delete_button.pack(side="right", padx=5)
        
 #Adicionar funcionalidade do botão adicionar tarefa
 def add_task():
