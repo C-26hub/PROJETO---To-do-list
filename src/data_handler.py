@@ -7,13 +7,20 @@ def create_task(task_description, deadline):
 
 ## read
 def get_tasks():
-    tasks = select_all_tasks()
+    """Busca as tarefas do banco e retorna uma lista de dicionários."""
+
+    tasks_from_db = select_all_tasks()
     formatted_tasks = []
-    for task in tasks:
-        task_id, description, deadline, status_code = task
-        status_text = "Concluída" if bool(status_code) else "Pendente"
-        formatted_line = f"ID:  {task_id} Status: {status_text} Prazo: {deadline} Tarefa: {description}"
-        formatted_tasks.append(formatted_line)
+    for task_tuple in tasks_from_db:
+        task_id, description, deadline, status_code = task_tuple
+        task_info = {
+            "id": task_id,
+            "task": description,  
+            "date": deadline,
+            "feito": True if status_code == 1 else False 
+        }
+        formatted_tasks.append(task_info)
+
     ## processamento ou conversão
     return formatted_tasks
 
