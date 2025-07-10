@@ -73,22 +73,22 @@ def toggle_feito(index=i):
     tasks[index]["feito"] = not tasks[index]["feito"]
     update_list()
 
-checkbox = ctk.CTkCheckBox(
-    task_frame,
-    text=f"{t['task']} - {t['date']}",
-    variable=var,
-    command=toggle_feito
-)
-checkbox.pack(anchor="w", padx=5)
+    checkbox = ctk.CTkCheckBox(
+        task_frame,
+        text=f"{t['task']} - {t['date']}",
+        variable=var,
+        command=toggle_feito
+    )
+    checkbox.pack(anchor="w", padx=5)
 
-# Label da descrição
-if t["description"]:
-    desc_label = ctk.CTkLabel(
+    # Label da descrição
+    if t["description"]:
+        desc_label = ctk.CTkLabel(
         task_frame,
         text=f"Descrição: {t['description']}",
         font=("Rubik", 12),
         text_color="#666666"
-    )
+        )
     desc_label.pack(anchor="w", padx=35)
 
 # Botão para excluir a tarefa
