@@ -14,6 +14,8 @@
   - Sam Ferreira (ferreirasdemelo@gmail.com)
 🔹 Responsável pela criação e integração do **Banco de Dados (SQLite)**, garantindo a persistência das tarefas e atualização em tempo real.
 
+📌 As responsabilidades foram divididas para garantir foco em cada etapa do projeto, com colaboração contínua entre os membros.
+
 ## ✅ Funcionalidades
   - Adicionar tarefas com descrição e data de vencimento
   - Marcar tarefas como concluídas
