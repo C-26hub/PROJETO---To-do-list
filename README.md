@@ -38,6 +38,11 @@
   
 ## 🧪 Como executar
   Clone este repositório:
-  git clone https://github.com/C-26hub/PROJETO---To-do-list
+    
+    git clone https://github.com/C-26hub/PROJETO---To-do-list
+  ```
   cd PROJETO---To-do-list
+  ```
+    cd src
+  ```
   python3 main.py
