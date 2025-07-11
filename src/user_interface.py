@@ -1,6 +1,7 @@
 import customtkinter as ctk
 import datetime
 from PIL import Image
+import data_handler as dh
 
 # Variáveis
 app = None
@@ -8,7 +9,7 @@ entry_my_task = None
 entry_date = None
 entry_description = None
 task_list_frame = None
-tasks = []
+
 
 # Aparência
 def configure_appearance():
@@ -90,19 +91,24 @@ def update_list():
         widget.destroy()
 
     filter = app.status_var.get()
+
+    all_tasks = dh.get_tasks()
+
+    for t in all_tasks:
     
-    for i, t in enumerate(tasks):
         if filter == "Todos" or \
            (filter == "Pendente" and not t["feito"]) or \
            (filter == "Concluída" and t["feito"]):
+            
+            task_id = t["id"]
 
             row = ctk.CTkFrame(task_list_frame, fg_color="transparent")
             row.pack(fill="x", padx=10, pady=4)
             
             var = ctk.BooleanVar(value=t["feito"])
             
-            def toggle(index=i):
-                tasks[index]["feito"] = not tasks[index]["feito"]
+            def toggle(id_to_toggle=task_id):
+                dh.toggle_task_status(id_to_toggle)
                 update_list()
 
             checkbox = ctk.CTkCheckBox(
@@ -122,9 +128,8 @@ def update_list():
             delete_button = ctk.CTkButton(
                 row,
                 text="❌",
-                width=30,
-                height=24,
-                command=lambda index=i: delete_task(index),
+                width=30, height=24,
+                command=lambda id_to_delete=task_id: delete_task(id_to_delete),
                 fg_color="transparent",
                 hover=False
             )
@@ -140,13 +145,13 @@ def add_task():
         return
 
     try:
-        datetime.datetime.strptime(date, "%d/%m/%Y")
+        deadline_for_db = datetime.datetime.strptime(date, "%d/%m/%Y").strftime('%Y-%m-%d')
     except ValueError:
         entry_date.delete(0, "end")
         entry_date.configure(placeholder_text="Data Inválida")
         return
 
-    tasks.append({"task": task, "date": date, "description": description, "feito": False})
+    dh.create_task(task, deadline_for_db)
 
     entry_my_task.delete(0, "end")
     entry_date.delete(0, "end")
@@ -154,10 +159,9 @@ def add_task():
     update_list()
 
 # Deleta Tarefa
-def delete_task(index):
-    tasks.pop(index)
+def delete_task(task_id):
+    dh.delete_task(task_id)
     update_list()
-
 # Iniciar App
 def start_app():
     configure_appearance()
