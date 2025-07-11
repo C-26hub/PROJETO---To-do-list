@@ -34,3 +34,6 @@ test-results/
 *.temp
 *.bak
 *.orig
+
+##Arquivos de instância
+*.db
