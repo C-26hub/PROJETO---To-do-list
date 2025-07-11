@@ -34,5 +34,3 @@ test-results/
 *.temp
 *.bak
 *.orig
-
-src/image/download.jpg
