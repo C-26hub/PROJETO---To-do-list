@@ -32,29 +32,16 @@ def create_db():
     
     
 ## create
-
 def add_task(task_name, deadline, task_description=None, status=0):
     execute("""
         INSERT INTO tasks (task_name, deadline, task_description, status) VALUES (?,?,?,?)
     """, task_name, deadline, task_description, status)
 
 ## read
-
 ## select all tasks
-
 def select_all_tasks():
     """Retorna todas as tarefas, sem filtro, ordenadas pela data de prazo."""
     return query("SELECT * FROM tasks ORDER BY deadline ASC")
-
-## select done tasks
-def select_done_tasks():
-    """Retorna apenas as tarefas com status 1 (concluída)."""
-    return query("SELECT * FROM tasks WHERE status = ? ORDER BY deadline ASC", 1)
-
-## select pending tasks
-def select_pending_tasks():
-    """Retorna apenas as tarefas com status 0 (pendente)."""
-    return query("SELECT * FROM tasks WHERE status = ?", 0)
 
 def get_task_status(task_id):
     result = query("SELECT status FROM tasks WHERE task_id = ?", task_id)
