@@ -32,11 +32,10 @@ def create_db():
     
 ## create
 
-def add_task(task_description=None, deadline, status=0):
+def add_task(task_name, task_description=None, deadline, status=0):
     execute("""
-        INSERT INTO tasks (task_description, deadline, status) VALUES (?,?,?)
-    """, task_description, deadline, status)
-
+        INSERT INTO tasks (task_name, task_description, deadline, status) VALUES (?,?,?,?)
+    """, task_name, task_description, deadline, status)
 
 ## read
 
