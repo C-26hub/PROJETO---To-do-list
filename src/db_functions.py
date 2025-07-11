@@ -19,6 +19,7 @@ def query(script, *args):
 
 ## system config
 def create_db():
+    """sqlite não tem varchar, bool e date, ele converte para text e numeral, para melhorar desempenho e clareza do código foi decidido usar os tipos do sqlite"""
     execute("""
     CREATE TABLE IF NOT EXISTS tasks (
         task_id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -28,7 +29,7 @@ def create_db():
         status INTEGER CHECK (status IN (0,1)) DEFAULT 0
     )
     """)
-    """sqlite não tem varchar, bool e date, ele converte para text e numeral, para melhorar desempenho e clareza do código foi decidido usar os tipos do sqlite"""
+    
     
 ## create
 
