@@ -1,7 +1,7 @@
 import sqlite3 as db
 
 def execute(script, *args):
-    connection = db.connect("storage\\to_do.db")
+    connection = db.connect("to_do.db")
     cursor = connection.cursor()
     cursor.execute(script, args)
     connection.commit()
@@ -9,7 +9,7 @@ def execute(script, *args):
     connection.close()
 
 def query(script, *args):
-    connection = db.connect("storage\\to_do.db")
+    connection = db.connect("to_do.db")
     cursor = connection.cursor()
     cursor.execute(script, args)
     results = cursor.fetchall() #pegar resultados
