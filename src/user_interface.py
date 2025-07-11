@@ -26,8 +26,8 @@ def create_window():
 # Logo
 def display_logo():
     logo_image = ctk.CTkImage(
-        light_image=Image.open("src\\image\\logo_transparente.png"),
-        dark_image=Image.open("src\\image\\logo_transparente.png"),
+        light_image=Image.open("src\\image\\transparent_logo.png"),
+        dark_image=Image.open("src\\image\\transparent_logo.png"),
         size=(160, 160)  # novo tamanho recomendado
     )
     logo_label = ctk.CTkLabel(app, image=logo_image, text="")
