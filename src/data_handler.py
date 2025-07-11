@@ -12,11 +12,12 @@ def get_tasks():
     tasks_from_db = select_all_tasks()
     formatted_tasks = []
     for task_tuple in tasks_from_db:
-        task_id, description, deadline, status_code = task_tuple
+        task_id, task_name, description, deadline, status_code = task_tuple
         task_info = {
             "id": task_id,
-            "task": description,  
+            "task": task_name,
             "date": deadline,
+            "description": description,  
             "feito": bool(status_code) 
         }
         formatted_tasks.append(task_info)
