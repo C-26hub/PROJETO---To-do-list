@@ -89,12 +89,12 @@ def update_list():
     for widget in task_list_frame.winfo_children():
         widget.destroy()
 
-    filtro = app.status_var.get()
+    filter = app.status_var.get()
     
     for i, t in enumerate(tasks):
-        if filtro == "Todos" or \
-           (filtro == "Pendente" and not t["feito"]) or \
-           (filtro == "Concluída" and t["feito"]):
+        if filter == "Todos" or \
+           (filter == "Pendente" and not t["feito"]) or \
+           (filter == "Concluída" and t["feito"]):
 
             row = ctk.CTkFrame(task_list_frame, fg_color="transparent")
             row.pack(fill="x", padx=10, pady=4)
