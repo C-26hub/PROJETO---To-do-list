@@ -61,12 +61,28 @@ def create_input_area():
     add_task_button = ctk.CTkButton(app, text="Adicionar Tarefa", corner_radius=10, fg_color="#A264D5", hover_color="#8A4AB1", command=lambda: add_task())
     add_task_button.pack(pady=10)
 
-# Lista de tarefas
+# Lista de tarefas com scroll
 def create_task_list():
     global task_list_frame
-    task_list_frame = ctk.CTkFrame(app, width=700, height=300, fg_color="transparent")
-    task_list_frame.pack(pady=10)
-    task_list_frame.pack_propagate(False)
+    
+    container = ctk.CTkFrame(app)
+    container.pack(pady=10, fill="both", expand=True)
+
+    canvas = ctk.CTkCanvas(container, bg="#FDFCFB", highlightthickness=0)
+    scrollbar = ctk.CTkScrollbar(container, orientation="vertical", command=canvas.yview)
+    scrollbar.pack(side="right", fill="y")
+    canvas.pack(side="left", fill="both", expand=True)
+
+    scrollable_frame = ctk.CTkFrame(canvas)
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    task_list_frame = scrollable_frame
     
 # Filtro
 def create_filter():
@@ -90,26 +106,20 @@ def update_list():
     for widget in task_list_frame.winfo_children():
         widget.destroy()
 
-    filter = app.status_var.get()
+    filtro = app.status_var.get()
+    tarefas_filtradas = dh.get_filtered_tasks(filtro)
 
-    all_tasks = dh.get_tasks()
+    for t in tarefas_filtradas:
+        task_id = t["id"]
 
-    for t in all_tasks:
-    
-        if filter == "Todos" or \
-           (filter == "Pendente" and not t["feito"]) or \
-           (filter == "Concluída" and t["feito"]):
-            
-            task_id = t["id"]
+        row = ctk.CTkFrame(task_list_frame, fg_color="transparent")
+        row.pack(fill="x", padx=10, pady=4)
 
-            row = ctk.CTkFrame(task_list_frame, fg_color="transparent")
-            row.pack(fill="x", padx=10, pady=4)
-            
-            var = ctk.BooleanVar(value=t["feito"])
-            
-            def toggle(id_to_toggle=task_id):
-                dh.toggle_task_status(id_to_toggle)
-                update_list()
+        var = ctk.BooleanVar(value=t["feito"])
+
+        def toggle(id_to_toggle=task_id):
+            dh.toggle_task_status(id_to_toggle)
+            update_list()
 
             checkbox = ctk.CTkCheckBox(
                 row,
@@ -130,10 +140,65 @@ def update_list():
                 text="❌",
                 width=30, height=24,
                 command=lambda id_to_delete=task_id: delete_task(id_to_delete),
-                fg_color="transparent",
+                fg_color="red",
                 hover=False
             )
             delete_button.pack(side="right")
+            
+            edit_button = ctk.CTkButton(
+            row, text="✏️", width=30, height=24,
+            command=lambda t_id=task_id, t_name=t["task"], t_date=t["date"], t_desc=t["description"]: open_edit_popup(t_id, t_name, t_date, t_desc),
+            fg_color="transparent", hover=False
+        )
+        edit_button.pack(side="right", padx=2)
+
+# Função de editar tarefa
+def open_edit_popup(task_id, current_task, current_date, current_description):
+    popup = ctk.CTkToplevel(app)
+    popup.title("Editar Tarefa")
+    popup.geometry("400x250")
+
+    ctk.CTkLabel(popup, text="Tarefa:").pack(pady=5)
+    task_entry = ctk.CTkEntry(popup)
+    task_entry.insert(0, current_task)
+    task_entry.pack()
+
+    ctk.CTkLabel(popup, text="Data (dd/mm/aaaa):").pack(pady=5)
+    date_entry = ctk.CTkEntry(popup)
+    date_entry.insert(0, datetime.datetime.strptime(current_date, "%Y-%m-%d").strftime('%d/%m/%Y'))
+    date_entry.pack()
+
+
+    ctk.CTkLabel(popup, text="Descrição:").pack(pady=5)
+    desc_entry = ctk.CTkEntry(popup)
+    desc_entry.insert(0, current_description)
+    desc_entry.pack()
+
+
+    def salvar_edicao():
+        nova_tarefa = task_entry.get()
+        nova_data = date_entry.get()
+        nova_desc = desc_entry.get()
+
+        if nova_tarefa.strip():
+            dh.update_task_name(task_id, nova_tarefa)
+
+
+        if nova_desc.strip():
+            dh.update_task_description(task_id, nova_desc)
+
+        try:
+            data_formatada = datetime.datetime.strptime(nova_data, "%d/%m/%Y").strftime('%Y-%m-%d')
+            dh.update_task_deadline(task_id, data_formatada)
+        except ValueError:
+            date_entry.delete(0, "end")
+            date_entry.configure(placeholder_text="Data Inválida")
+            return
+
+        popup.destroy()
+        update_list()
+
+    ctk.CTkButton(popup, text="Salvar", command=salvar_edicao).pack(pady=10)
 
 # Adiciona Tarefa
 def add_task():
@@ -162,7 +227,8 @@ def add_task():
 def delete_task(task_id):
     dh.delete_task(task_id)
     update_list()
-# Iniciar App
+    
+# Iniciar aplicação
 def start_app():
     configure_appearance()
     create_window()
