@@ -2,79 +2,89 @@ import customtkinter as ctk
 import datetime
 from PIL import Image
 
-# Aparência
-ctk.set_appearance_mode("light")
-ctk.set_default_color_theme("blue")
-
-# Janela principal
-app = ctk.CTk()
-app.title("🧠 Study Up - Minhas Tarefas")
-app.geometry("800x600")
-app.configure(fg_color="#FDFCFB")  # tom off-white suave
-
-# --- Logo + Título ---
-logo_image = ctk.CTkImage(
-    light_image=Image.open("src\\image\\logo_transparente.png"),
-    dark_image=Image.open("src\\image\\logo_transparente.png"),
-    size=(100, 100)
-)
-
-# Logo maior com nome incluso
-logo_image = ctk.CTkImage(
-    light_image=Image.open("src\\image\\logo_transparente.png"),
-    dark_image=Image.open("src\\image\\logo_transparente.png"),
-    size=(160, 160)  # novo tamanho recomendado
-)
-logo_label = ctk.CTkLabel(app, image=logo_image, text="")
-logo_label.pack(pady=(30, 5))  # mais espaço em cima
-
-# Subtítulo
-subtitle = ctk.CTkLabel(app, text="Minhas Tarefas", font=ctk.CTkFont(size=24, weight="bold"))
-subtitle.pack(pady=(10, 20))
-
-# --- Área de entrada da tarefa ---
-entry_frame = ctk.CTkFrame(app, fg_color="transparent")
-entry_frame.pack(pady=5)
-
-# Campo: Tarefa
-entry_my_task = ctk.CTkEntry(entry_frame, placeholder_text="Digite a sua tarefa aqui", width=250)
-entry_my_task.grid(row=0, column=0, padx=8)
-
-# Campo: Data
-entry_date = ctk.CTkEntry(entry_frame, placeholder_text="dd/mm/aaaa", width=120)
-entry_date.grid(row=0, column=1, padx=8)
-
-# Campo: Descrição
-entry_description = ctk.CTkEntry(entry_frame, placeholder_text="Digite uma descrição...", width=200)
-entry_description.grid(row=0, column=2, padx=8)
-
-# Botão adicionar
-add_task_button = ctk.CTkButton(app, text="Adicionar Tarefa", corner_radius=10, fg_color="#A264D5", hover_color="#8A4AB1", command=lambda: add_task())
-add_task_button.pack(pady=10)
-
-# --- Lista de tarefas ---
+# Variáveis
+app = None
+entry_my_task = None
+entry_date = None
+entry_description = None
+task_list_frame = None
 tasks = []
 
-task_list_frame = ctk.CTkFrame(app, width=700, height=300, fg_color="transparent")
-task_list_frame.pack(pady=10)
-task_list_frame.pack_propagate(False)
+# Aparência
+def configure_appearance():
+    ctk.set_appearance_mode("light")
+    ctk.set_default_color_theme("blue")
 
-# --- Filtro ---
-filter_frame = ctk.CTkFrame(app, fg_color="transparent")
-filter_frame.pack(pady=(10, 5), anchor="e")
+# Janela principal
+def create_window():
+    global app
+    app = ctk.CTk()
+    app.title("🧠 Study Up - Minhas Tarefas")
+    app.geometry("800x600")
+    app.configure(fg_color="#FDFCFB")  # tom off-white suave
 
-ctk.CTkLabel(filter_frame, text="Filtro:", font=ctk.CTkFont(size=14)).pack(side="left", padx=5)
+# Logo
+def display_logo():
+    logo_image = ctk.CTkImage(
+        light_image=Image.open("src\\image\\logo_transparente.png"),
+        dark_image=Image.open("src\\image\\logo_transparente.png"),
+        size=(160, 160)  # novo tamanho recomendado
+    )
+    logo_label = ctk.CTkLabel(app, image=logo_image, text="")
+    logo_label.pack(pady=(30, 5))  # mais espaço em cima
 
-app.status_var = ctk.StringVar(value="Todos")
-app.combo = ctk.CTkOptionMenu(
-    filter_frame,
-    values=["Todos", "Pendente", "Concluída"],
-    variable=app.status_var,
-    command=lambda _: update_list()
-)
-app.combo.pack(side="left")
+# Subtítulo
+def display_subtitle():
+    subtitle = ctk.CTkLabel(app, text="Minhas Tarefas", font=ctk.CTkFont(size=24, weight="bold"))
+    subtitle.pack(pady=(10, 20))
 
-# --- Funções principais ---
+# Área de entrada da tarefa
+def create_input_area():
+    global entry_my_task, entry_date, entry_description
+    entry_frame = ctk.CTkFrame(app, fg_color="transparent")
+    entry_frame.pack(pady=5)
+
+    # Campo: Tarefa
+    entry_my_task = ctk.CTkEntry(entry_frame, placeholder_text="Digite a sua tarefa aqui", width=250)
+    entry_my_task.grid(row=0, column=0, padx=8)
+
+    # Campo: Data
+    entry_date = ctk.CTkEntry(entry_frame, placeholder_text="dd/mm/aaaa", width=120)
+    entry_date.grid(row=0, column=1, padx=8)
+
+    # Campo: Descrição
+    entry_description = ctk.CTkEntry(entry_frame, placeholder_text="Digite uma descrição...", width=200)
+    entry_description.grid(row=0, column=2, padx=8)
+
+    # Botão adicionar
+    add_task_button = ctk.CTkButton(app, text="Adicionar Tarefa", corner_radius=10, fg_color="#A264D5", hover_color="#8A4AB1", command=lambda: add_task())
+    add_task_button.pack(pady=10)
+
+# Lista de tarefas
+def create_task_list():
+    global task_list_frame
+    task_list_frame = ctk.CTkFrame(app, width=700, height=300, fg_color="transparent")
+    task_list_frame.pack(pady=10)
+    task_list_frame.pack_propagate(False)
+    
+# Filtro
+def create_filter():
+    app.status_var = ctk.StringVar(value="Todos")
+    
+    filter_frame = ctk.CTkFrame(app, fg_color="transparent")
+    filter_frame.pack(pady=(10, 5), anchor="e")
+
+    ctk.CTkLabel(filter_frame, text="Filtro:", font=ctk.CTkFont(size=14)).pack(side="left", padx=5)
+
+    app.combo = ctk.CTkOptionMenu(
+        filter_frame,
+        values=["Todos", "Pendente", "Concluída"],
+        variable=app.status_var,
+        command=lambda _: update_list()
+    )
+    app.combo.pack(side="left")  
+
+# Atualiazação da lista de tarefas
 def update_list():
     for widget in task_list_frame.winfo_children():
         widget.destroy()
@@ -90,6 +100,7 @@ def update_list():
             row.pack(fill="x", padx=10, pady=4)
             
             var = ctk.BooleanVar(value=t["feito"])
+            
             def toggle(index=i):
                 tasks[index]["feito"] = not tasks[index]["feito"]
                 update_list()
@@ -119,7 +130,7 @@ def update_list():
             )
             delete_button.pack(side="right")
 
-
+# Adiciona Tarefa
 def add_task():
     task = entry_my_task.get()
     date = entry_date.get()
@@ -142,10 +153,19 @@ def add_task():
     entry_description.delete(0, "end")
     update_list()
 
-
+# Deleta Tarefa
 def delete_task(index):
     tasks.pop(index)
     update_list()
 
-# --- Iniciar App ---
-app.mainloop()
+# Iniciar App
+def start_app():
+    configure_appearance()
+    create_window()
+    display_logo()
+    display_subtitle()
+    create_input_area()
+    create_task_list()
+    create_filter()
+    update_list()
+    app.mainloop()
