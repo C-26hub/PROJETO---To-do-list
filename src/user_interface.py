@@ -3,13 +3,12 @@ import datetime
 from PIL import Image
 import data_handler as dh
 
-# Variáveis
+# Variáveis globais
 app = None
 entry_my_task = None
 entry_date = None
 entry_description = None
 task_list_frame = None
-
 
 # Aparência
 def configure_appearance():
@@ -22,49 +21,47 @@ def create_window():
     app = ctk.CTk()
     app.title("🧠 Study Up - Minhas Tarefas")
     app.geometry("800x600")
-    app.configure(fg_color="#FDFCFB")  # tom off-white suave
+    app.configure(fg_color="#FDFCFB")
 
 # Logo
 def display_logo():
     logo_image = ctk.CTkImage(
         light_image=Image.open("src\\image\\transparent_logo.png"),
         dark_image=Image.open("src\\image\\transparent_logo.png"),
-        size=(160, 160)  # novo tamanho recomendado
+        size=(160, 160)
     )
     logo_label = ctk.CTkLabel(app, image=logo_image, text="")
-    logo_label.pack(pady=(30, 5))  # mais espaço em cima
+    logo_label.pack(pady=(30, 5))
 
 # Subtítulo
 def display_subtitle():
     subtitle = ctk.CTkLabel(app, text="Minhas Tarefas", font=ctk.CTkFont(size=24, weight="bold"))
     subtitle.pack(pady=(10, 20))
 
-# Área de entrada da tarefa
+# Área de entrada
 def create_input_area():
     global entry_my_task, entry_date, entry_description
     entry_frame = ctk.CTkFrame(app, fg_color="transparent")
     entry_frame.pack(pady=5)
 
-    # Campo: Tarefa
     entry_my_task = ctk.CTkEntry(entry_frame, placeholder_text="Digite a sua tarefa aqui", width=250)
     entry_my_task.grid(row=0, column=0, padx=8)
 
-    # Campo: Data
     entry_date = ctk.CTkEntry(entry_frame, placeholder_text="dd/mm/aaaa", width=120)
     entry_date.grid(row=0, column=1, padx=8)
 
-    # Campo: Descrição
     entry_description = ctk.CTkEntry(entry_frame, placeholder_text="Digite uma descrição...", width=200)
     entry_description.grid(row=0, column=2, padx=8)
 
-    # Botão adicionar
-    add_task_button = ctk.CTkButton(app, text="Adicionar Tarefa", corner_radius=10, fg_color="#A264D5", hover_color="#8A4AB1", command=lambda: add_task())
+    add_task_button = ctk.CTkButton(app, text="Adicionar Tarefa", corner_radius=10,
+                                    fg_color="#A264D5", hover_color="#8A4AB1",
+                                    command=lambda: add_task())
     add_task_button.pack(pady=10)
 
 # Lista de tarefas com scroll
 def create_task_list():
     global task_list_frame
-    
+
     container = ctk.CTkFrame(app)
     container.pack(pady=10, fill="both", expand=True)
 
@@ -83,11 +80,11 @@ def create_task_list():
     canvas.configure(yscrollcommand=scrollbar.set)
 
     task_list_frame = scrollable_frame
-    
-# Filtro
+
+# Filtro de status
 def create_filter():
     app.status_var = ctk.StringVar(value="Todos")
-    
+
     filter_frame = ctk.CTkFrame(app, fg_color="transparent")
     filter_frame.pack(pady=(10, 5), anchor="e")
 
@@ -99,9 +96,9 @@ def create_filter():
         variable=app.status_var,
         command=lambda _: update_list()
     )
-    app.combo.pack(side="left")  
+    app.combo.pack(side="left")
 
-# Atualiazação da lista de tarefas
+# Atualizar lista de tarefas
 def update_list():
     for widget in task_list_frame.winfo_children():
         widget.destroy()
@@ -121,31 +118,28 @@ def update_list():
             dh.toggle_task_status(id_to_toggle)
             update_list()
 
-            checkbox = ctk.CTkCheckBox(
-                row,
-                text=f'{t["task"]} — {t["description"]}',
-                variable=var,
-                command=toggle,
-                font=ctk.CTkFont(size=16),
-                checkbox_width=18,
-                checkbox_height=18
-            )
-            checkbox.pack(side="left", padx=10)
+        checkbox = ctk.CTkCheckBox(
+            row,
+            text=f'{t["task"]} — {t["description"]}',
+            variable=var,
+            command=toggle,
+            font=ctk.CTkFont(size=16),
+            checkbox_width=18,
+            checkbox_height=18
+        )
+        checkbox.pack(side="left", padx=10)
 
-            date_label = ctk.CTkLabel(row, text=t["date"], font=ctk.CTkFont(size=16))
-            date_label.pack(side="right", padx=10)
+        date_label = ctk.CTkLabel(row, text=t["date"], font=ctk.CTkFont(size=16))
+        date_label.pack(side="right", padx=5)
 
-            delete_button = ctk.CTkButton(
-                row,
-                text="❌",
-                width=30, height=24,
-                command=lambda id_to_delete=task_id: delete_task(id_to_delete),
-                fg_color="red",
-                hover=False
-            )
-            delete_button.pack(side="right")
-            
-            edit_button = ctk.CTkButton(
+        delete_button = ctk.CTkButton(
+            row, text="❌", width=30, height=24,
+            command=lambda id_to_delete=task_id: delete_task(id_to_delete),
+            fg_color="red", hover=False
+        )
+        delete_button.pack(side="right", padx=2)
+
+        edit_button = ctk.CTkButton(
             row, text="✏️", width=30, height=24,
             command=lambda t_id=task_id, t_name=t["task"], t_date=t["date"], t_desc=t["description"]: open_edit_popup(t_id, t_name, t_date, t_desc),
             fg_color="transparent", hover=False
@@ -168,12 +162,10 @@ def open_edit_popup(task_id, current_task, current_date, current_description):
     date_entry.insert(0, datetime.datetime.strptime(current_date, "%Y-%m-%d").strftime('%d/%m/%Y'))
     date_entry.pack()
 
-
     ctk.CTkLabel(popup, text="Descrição:").pack(pady=5)
     desc_entry = ctk.CTkEntry(popup)
     desc_entry.insert(0, current_description)
     desc_entry.pack()
-
 
     def salvar_edicao():
         nova_tarefa = task_entry.get()
@@ -182,7 +174,6 @@ def open_edit_popup(task_id, current_task, current_date, current_description):
 
         if nova_tarefa.strip():
             dh.update_task_name(task_id, nova_tarefa)
-
 
         if nova_desc.strip():
             dh.update_task_description(task_id, nova_desc)
@@ -200,7 +191,7 @@ def open_edit_popup(task_id, current_task, current_date, current_description):
 
     ctk.CTkButton(popup, text="Salvar", command=salvar_edicao).pack(pady=10)
 
-# Adiciona Tarefa
+# Adicionar nova tarefa
 def add_task():
     task = entry_my_task.get()
     date = entry_date.get()
@@ -223,11 +214,11 @@ def add_task():
     entry_description.delete(0, "end")
     update_list()
 
-# Deleta Tarefa
+# Deletar tarefa
 def delete_task(task_id):
     dh.delete_task(task_id)
     update_list()
-    
+
 # Iniciar aplicação
 def start_app():
     configure_appearance()
