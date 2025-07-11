@@ -27,8 +27,8 @@ def create_window():
 # Logo
 def display_logo():
     logo_image = ctk.CTkImage(
-        light_image=Image.open("src\\image\\transparent_logo.png"),
-        dark_image=Image.open("src\\image\\transparent_logo.png"),
+        light_image=Image.open("./image/transparent_logo.png"),
+        dark_image=Image.open("./image/transparent_logo.png"),
         size=(160, 160)  # novo tamanho recomendado
     )
     logo_label = ctk.CTkLabel(app, image=logo_image, text="")
@@ -151,7 +151,7 @@ def add_task():
         entry_date.configure(placeholder_text="Data Inválida")
         return
 
-    dh.create_task(task, deadline_for_db)
+    dh.create_task(task, deadline_for_db, description)
 
     entry_my_task.delete(0, "end")
     entry_date.delete(0, "end")
