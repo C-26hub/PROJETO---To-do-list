@@ -5,8 +5,8 @@ def init_database():
     db.create_db()
 
 ## create
-def create_task(task_description, deadline):
-    add_task(task_description, deadline)
+def create_task(task_name, deadline):
+    add_task(task_name, deadline)
 
 ## read
 def get_tasks():
