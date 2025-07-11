@@ -23,8 +23,8 @@ def create_db():
     CREATE TABLE IF NOT EXISTS tasks (
         task_id INTEGER PRIMARY KEY AUTOINCREMENT, 
         task_name TEXT NOT NULL,
-        task_description TEXT,
         deadline TEXT NOT NULL,
+        task_description TEXT,
         status INTEGER CHECK (status IN (0,1)) DEFAULT 0
     )
     """)
@@ -34,8 +34,8 @@ def create_db():
 
 def add_task(task_name, deadline, task_description=None, status=0):
     execute("""
-        INSERT INTO tasks (task_name, task_description, deadline, status) VALUES (?,?,?,?)
-    """, task_name, task_description, deadline, status)
+        INSERT INTO tasks (task_name, deadline, task_description, status) VALUES (?,?,?,?)
+    """, task_name, deadline, task_description, status)
 
 ## read
 
