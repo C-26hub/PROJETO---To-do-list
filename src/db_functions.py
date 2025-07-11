@@ -22,11 +22,12 @@ def create_db():
     execute("""
     CREATE TABLE IF NOT EXISTS tasks (
         task_id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        task_description VARCHAR(100),
-        deadline DATE NOT NULL,
+        task_description TEXT,
+        deadline TEXT NOT NULL,
         status INTEGER CHECK (status IN (0,1)) DEFAULT 0
     )
     """)
+    """sqlite não tem varchar, bool e date, ele converte para text e numeral, para melhorar desempenho e clareza do código foi decidido usar os tipos do sqlite"""
     
 ## create
 
@@ -38,23 +39,16 @@ def add_task(task_description, deadline, status=0):
 
 ## read
 
-
-
-
 ## select all tasks
 
 def select_all_tasks():
     """Retorna todas as tarefas, sem filtro, ordenadas pela data de prazo."""
     return query("SELECT * FROM tasks ORDER BY deadline ASC")
 
-
 ## select done tasks
 def select_done_tasks():
     """Retorna apenas as tarefas com status 1 (concluída)."""
     return query("SELECT * FROM tasks WHERE status = ? ORDER BY deadline ASC", 1)
-
-
-
 
 ## select pending tasks
 def select_pending_tasks():
