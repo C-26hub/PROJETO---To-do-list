@@ -29,6 +29,7 @@ def get_tasks():
 def toggle_task_status(task_id):
     new_status = int(not bool(get_task_status(task_id)))
     set_task_status(task_id, new_status)
+
 def update_task_description(task_id, new_description):
     set_task_description(task_id, new_description)
 
