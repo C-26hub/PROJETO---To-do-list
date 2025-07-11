@@ -1,4 +1,4 @@
-import db_functions as db
+from data_handler import init_database
 from user_interface import start_app
 
 def main():
