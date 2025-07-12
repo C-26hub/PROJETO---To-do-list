@@ -51,12 +51,12 @@ def get_task_status(task_id):
 
 ## update
 ## rename task
-def set_task_description(task_id, new_description):
+def set_task_name(task_id, new_name):
     execute("""
     UPDATE tasks
-    SET task_description = ?
+    SET task_name = ?
     WHERE task_id = ?
-    """, new_description, task_id)
+    """, new_name, task_id)
 
 ## change deadline
 def set_deadline(task_id, new_deadline):
@@ -79,3 +79,13 @@ def set_task_status(task_id, new_status):
 def delete_task_by_id(task_id):
     """Apaga uma tarefa específica do banco, identificada pelo ID."""
     execute("DELETE FROM tasks WHERE task_id = ?", task_id)
+
+## select done tasks
+def select_done_tasks():
+    """Retorna apenas as tarefas com status 1 (concluída)."""
+    return query("SELECT * FROM tasks WHERE status = ? ORDER BY deadline ASC", 1)
+
+## select pending tasks
+def select_pending_tasks():
+    """Retorna apenas as tarefas com status 0 (pendente)."""
+    return query("SELECT * FROM tasks WHERE status = ? ORDER BY deadline ASC", 0)

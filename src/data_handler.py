@@ -9,13 +9,18 @@ def create_task(task_name, deadline, task_description):
     add_task(task_name, deadline, task_description)
 
 ## read
-def get_tasks():
-    """Busca as tarefas do banco e retorna uma lista de dicionários."""
+def get_filtered_tasks(filtro="Todos"):
 
-    tasks_from_db = select_all_tasks()
+    if filtro == "Pendente":
+        tasks_from_db = select_pending_tasks()
+    elif filtro == "Concluída":
+        tasks_from_db = select_done_tasks()
+    else: 
+        tasks_from_db = select_all_tasks()
+        
     formatted_tasks = []
     for task_tuple in tasks_from_db:
-        task_id, task_name, description, deadline, status_code = task_tuple
+        task_id, task_name, deadline, description, status_code = task_tuple
         task_info = {
             "id": task_id,
             "task": task_name,
@@ -39,6 +44,8 @@ def update_task_description(task_id, new_description):
 def update_task_deadline(task_id, new_deadline):
     set_deadline(task_id, new_deadline)
 
+def update_task_name(task_id, new_name):
+    set_task_name(task_id, new_name)
 ## delete
 def delete_task(task_id):
     delete_task_by_id(task_id)
