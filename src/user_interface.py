@@ -86,7 +86,7 @@ def create_filter():
     app.status_var = ctk.StringVar(value="Todos")
 
     filter_frame = ctk.CTkFrame(app, fg_color="transparent")
-    filter_frame.pack(pady=(10, 5), anchor="e")
+    filter_frame.pack(side="bottom", pady=10, fill="x", padx=20)
 
     ctk.CTkLabel(filter_frame, text="Filtro:", font=ctk.CTkFont(size=14)).pack(side="left", padx=5)
 
@@ -96,7 +96,7 @@ def create_filter():
         variable=app.status_var,
         command=lambda _: update_list()
     )
-    app.combo.pack(side="left")
+    app.combo.pack(side="right")
 
 # Atualizar lista de tarefas
 def update_list():
@@ -226,7 +226,7 @@ def start_app():
     display_logo()
     display_subtitle()
     create_input_area()
-    create_task_list()
     create_filter()
+    create_task_list()
     update_list()
     app.mainloop()
